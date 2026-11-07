@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -110,20 +110,35 @@ namespace ArtHelper
         private static Bitmap CreateCanvas(Image source)
         {
             const double targetRatio = 1.25;
-            int widthByWideningWidth = Math.Max(source.Width,
-                (int)Math.Ceiling(source.Height * targetRatio));
-            int heightByWideningWidth = source.Height;
-            int widthByWideningHeight = source.Width;
-            int heightByWideningHeight = Math.Max(source.Height,
-                (int)Math.Ceiling(source.Width / targetRatio));
+            int width = source.Width;
+            int height = source.Height;
+            bool widthIsLonger = width >= height;
+            double existingRatio = widthIsLonger
+                ? (double)width / height
+                : (double)height / width;
 
-            long addedPixelsWhenWideningWidth =
-                (long)widthByWideningWidth * heightByWideningWidth - (long)source.Width * source.Height;
-            long addedPixelsWhenWideningHeight =
-                (long)widthByWideningHeight * heightByWideningHeight - (long)source.Width * source.Height;
-            bool widenWidth = addedPixelsWhenWideningWidth <= addedPixelsWhenWideningHeight;
-            int width = widenWidth ? widthByWideningWidth : widthByWideningHeight;
-            int height = widenWidth ? heightByWideningWidth : heightByWideningHeight;
+            if (existingRatio < targetRatio)
+            {
+                if (widthIsLonger)
+                {
+                    width = (int)Math.Ceiling(height * targetRatio);
+                }
+                else
+                {
+                    height = (int)Math.Ceiling(width * targetRatio);
+                }
+            }
+            else if (existingRatio > targetRatio)
+            {
+                if (widthIsLonger)
+                {
+                    height = (int)Math.Ceiling(width / targetRatio);
+                }
+                else
+                {
+                    width = (int)Math.Ceiling(height / targetRatio);
+                }
+            }
 
             var canvas = new Bitmap(width, height, PixelFormat.Format24bppRgb);
             using (Graphics graphics = Graphics.FromImage(canvas))

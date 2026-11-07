@@ -32,14 +32,8 @@ namespace ArtHelper.Properties
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string OutputDirectory
         {
-            get
-            {
-                return ((string)(this["OutputDirectory"]));
-            }
-            set
-            {
-                this["OutputDirectory"] = value;
-            }
+            get { return ((string)(this["OutputDirectory"])); }
+            set { this["OutputDirectory"] = value; }
         }
 
         [global::System.Configuration.UserScopedSettingAttribute()]
@@ -47,14 +41,8 @@ namespace ArtHelper.Properties
         [global::System.Configuration.DefaultSettingValueAttribute("6")]
         public int GradeCount
         {
-            get
-            {
-                return ((int)(this["GradeCount"]));
-            }
-            set
-            {
-                this["GradeCount"] = value;
-            }
+            get { return ((int)(this["GradeCount"])); }
+            set { this["GradeCount"] = value; }
         }
     }
 }
